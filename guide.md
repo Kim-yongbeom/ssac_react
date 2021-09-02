@@ -10,10 +10,11 @@
 https://ko.reactjs.org/
 
 ### localhost URL
+
 - 로컬 서버에서 실행을 할 때 사용할 수 있는 키워드
 - localhost => IP 주소 : 127.0.0.1
 - port - URL:port 번호
-    - 하나의 물리서버에서 여러개의 서버 SW를 실행할 수 있음
+  - 하나의 물리서버에서 여러개의 서버 SW를 실행할 수 있음
 
 ## React의 특징
 
@@ -28,37 +29,81 @@ https://ko.reactjs.org/
 - JSX는 return 키워드 ()안에 입력을 하게 될때 하나의 Element 영역으로 그룹화 되어있어야 함
 - 하나의 영역으로 그룹화 할 때 특정 Element로 그룹화 해서 반영하지 않을 때 -Fragment 사용
 - JSX에서 Javascript 변수 값 사용하기
-    - {변수이름}
+  - {변수이름}
 - JSX에서 class와 id 지정하기
-    - class => className 속성 사용
-    - id => id 속성 사용
-- JSX 주석 : {/* 주석내용 */}
+  - class => className 속성 사용
+  - id => id 속성 사용
+- JSX 주석 : {/_ 주석내용 _/}
 
 ### 구조 분해 할당
 
-
-
 ### Todo Markup
+
 https://dev.to/hariramjp777/todo-app-using-html-css-and-js-local-storage-design-html-and-css-1m0j
 
 ### Todo Component
 
 - header
 - main
-    - todo-list
-        - todo-item
-    - status
+  - todo-list
+    - todo-item
+  - status
 - footer
-
 
 ### React에서 css를 작성/사용하는 방식
 
 - App.css에 전체 css를 구성하고 전역으로 사용하는 방식
 - module css 방식 : css를 하나로 구성하지 않고 component별로 구성
-    - component와 css 파일이 분리되어 있음
-    - 작성 방법
-        - 폰트 설정, reset css 등...은 App.css에 전역으로 사용
-        - 하나의 요소를 선택해서 css를 적용하는 경우 module css로 활용
+  - component와 css 파일이 분리되어 있음
+  - 작성 방법
+    - 폰트 설정, reset css 등...은 App.css에 전역으로 사용
+    - 하나의 요소를 선택해서 css를 적용하는 경우 module css로 활용
 - styled-component : 스타일링된 컴포넌트 => component별로 css를 구성
-    - 인라인 방식처럼 사용 => component 파일에 css, component, contents 같이 작성
-    - Internal 방식으로 렌더링됨
+  - 인라인 방식처럼 사용 => component 파일에 css, component, contents 같이 작성
+  - Internal 방식으로 렌더링됨
+
+## React JSX에 기능 추가
+
+- event 와 함수를 연결
+
+```
+
+on이벤트={함수이름}
+
+Ex) onClick="{myFunction}"
+```
+
+- JSX에 반영되는 값이 없데이트 되어 다시 렌더링되어야 할 때 Hook 을 사용함
+
+### React Hook
+
+- Hook은 함수 컴포넌트에서 리액트의 상태와 생명주기 기능을 연동할 수 있도록 해주는 함수
+
+- useState
+
+  - 초기값으로 지정한 값을 사용해서 상태를 표현하는 값과 그 값을 설정(지정)하는 함수를 반환함
+
+- useRef
+
+  - useRef로 할당된 객체와 해당 객체가 할당괸 element와 연결되어 렌더링된 DOM에 직접 Access 할 수 있도록 하는 함수
+
+- map 함수
+  - 특정 데이터를 다른 형태나 성질의 데이터로 변형하여 매핑해주는 함수
+
+### Hook 을 사용해서 배열에 데이터를 추가/삭제
+
+- 기본 배열 데이터
+
+  - 최종으로 수정되는 데이터 기본 배열 데이터도 useState()로 상태 관리가 필요함.
+
+- 새로 입력되는 객체
+
+  - 새로 값이 입력될 때 useState()로 상태 관리가 필요함
+  - 구조 분해 할당을 통해 단순한 형태의 변수를 사용
+  - useState()를 사용하면 리렌더링 해줌
+
+- 실행 사이클의 상태 관리
+
+  - 기본 데이터 갯수 이후로 데이터가 추가될 수 있도록 useRef()로 상태 관리가 필요함
+
+- 컴포넌트 밖의 함수와 값을 사용하기 위해 컴포넌트 속으로 전달해서 사용하기도 함
