@@ -1,19 +1,23 @@
-function HookArrayCreate({ name, color, changeText }) {
+function HookArrayCreate({ carname, color, changeText, addText }) {
   return (
     <div>
       <input
         type="text"
-        placeholder="차 이름 입력"
-        value={name}
+        placeholder="차 이름 입력"
         onChange={changeText}
+        name="carname"
+        value={carname}
       />
       <input
         type="text"
-        placeholder="차 색 입력"
-        value={color}
+        placeholder="차 색깔 입력"
         onChange={changeText}
+        name="color"
+        value={color}
       />
-      <button type="button">추가</button>
+      <button type="button" onClick={addText}>
+        추가
+      </button>
     </div>
   );
 }

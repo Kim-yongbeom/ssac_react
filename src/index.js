@@ -8,9 +8,9 @@ import AppArray from './AppArray';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <App /> */}
+    <App />
     {/* <AppEvent /> */}
-    <AppArray />
+    {/* <AppArray /> */}
   </React.StrictMode>,
   document.getElementById('root'),
 );

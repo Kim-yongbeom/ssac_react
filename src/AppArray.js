@@ -4,47 +4,82 @@ import HookArray from './HookArray';
 import HookArrayCreate from './HookArrayCreate';
 
 function AppArray() {
+  // 기본 데이터(객체) 배열
   const [carArray, setCarArray] = useState([
     {
       id: 1,
-      name: 'Fiat',
+      carname: 'Fiat',
       color: 'white',
     },
     {
       id: 2,
-      name: 'Kia',
+      carname: 'Kia',
       color: 'red',
     },
     {
       id: 3,
-      name: 'Hyundai',
+      carname: 'Hyundai',
       color: 'grey',
     },
   ]);
 
+  // 기본 데이터 배열의 추가/삭제를 위한 객체 변수
   const [carInput, setCarInput] = useState({
-    name: '',
+    carname: '',
     color: '',
   });
 
-  const { name, color } = carInput;
+  // 구조분해할당
+  const { carname, color } = carInput;
 
+  // input에 텍스트 입력시 carInput에 데이터 업데이트, 화면에 텍스트 표시 리렌더링하는 함수
   const changeText = (e) => {
-    const { property, value } = e.target;
-
+    // onChange 이벤트가 발생했을 때 이벤트 객체에서 name value를 받아옴
+    const { name, value } = e.target;
+    // carInput 객체에서 새로 받아온 데이터를 set
     setCarInput({
       ...carInput,
-      [property]: value,
+      [name]: value,
     });
   };
 
-  // userRef() : 상태값 관리
+  // useRef에 매개변수 값을 넣어주면 해당 값이 current property 값으로 설정
   const nextId = useRef(4);
+
+  // 버튼 클릭시 input에 입력되어 있는 텍스트를 기본 데이터 배열에 추가 / 리렌더링
+  const addText = () => {
+    // 기본 데이터 배열에 넣어줄 객체
+    const newCar = {
+      id: nextId.current,
+      carname: carname,
+      color: color,
+    };
+    setCarArray([...carArray, newCar]);
+    setCarInput({
+      carname: '',
+      color: '',
+    });
+    nextId.current++;
+  };
+
+  const removeText = (id) => {
+    // filter 내장 함수 : 조건에 맞는 데이터만 추출해서 새로운 데이터(배열) 생성
+    setCarArray(
+      carArray.filter(function (car) {
+        return car.id !== id;
+      }),
+    );
+  };
 
   return (
     <>
-      <HookArrayCreate name={name} color={color} changeText={changeText} />
-      <HookArray carArray={carArray} />
+      <HookArrayCreate
+        carname={carname}
+        color={color}
+        changeText={changeText}
+        addText={addText}
+      />
+      <HookArray carArray={carArray} removeText={removeText} />
     </>
   );
 }
