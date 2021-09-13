@@ -16,7 +16,7 @@ function TodoHeader({ todoContent, changeTodo, addTodo }) {
           <input
             type="text"
             className={header['form-text']}
-            placeholder="새로운 할 일 입력"
+            placeholder="새로운 할 일 입력!"
             onChange={changeTodo}
             name="todoContent"
             value={todoContent}

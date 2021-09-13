@@ -9,13 +9,14 @@ import TodoFooter from './component/TodoFooter';
 import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
+export const baseURL = 'http://localhost:3000';
+
 function App() {
   //
   //
   // 주소 aws DNS로 바꿔서 해보기
   //
   //
-  const baseURL = 'http://localhost:3000';
   // 기본 데이터(객체) 배열
   const [todoArray, setTodoArray] = useState([]);
 
@@ -104,7 +105,11 @@ function App() {
         addTodo={addTodo}
       />
       <TodoMain>
-        <TodoList todoArray={todoArray} removeTodo={removeTodo} />
+        <TodoList
+          todoArray={todoArray}
+          removeTodo={removeTodo}
+          setTodoArray={setTodoArray}
+        />
         <TodoStatus todoArray={todoArray} />
       </TodoMain>
       <TodoFooter />
