@@ -25,7 +25,7 @@ function App() {
   });
 
   useEffect(() => {
-    console.log('최초 1회 실행');
+    console.log('최초 1회 실행.');
     // url : /lists
     // method : get
     axios({
