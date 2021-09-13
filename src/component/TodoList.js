@@ -1,11 +1,19 @@
 import todolist from '../css/todolist.module.css';
 import todoItem from '../css/todoitem.module.css';
+import { useState } from 'react';
 
 function TodoItem({ todo, removeTodo }) {
+  const [edited, setEdited] = useState(true);
+
   return (
     <li className={todoItem['todo-item']}>
       <input type="checkbox" className={todoItem.check} />
-      <mark className={todoItem.text}>{todo.todoContent}</mark>
+      {edited ? (
+        <input className={todoItem.edit_input} />
+      ) : (
+        <mark className={todoItem.text}>{todo.todoContent}</mark>
+      )}
+
       <button
         type="button"
         className={todoItem.del}
