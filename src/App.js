@@ -45,6 +45,15 @@ function App() {
   // 구조분해할당
   const { todoContent } = todoInput;
 
+  const getAllData = async () => {
+    const response = await axios({
+      method: 'GET',
+      url: `${baseURL}/lists`,
+    });
+    const result = response.data.data;
+    return result;
+  };
+
   // input에 텍스트 입력시 carInput에 데이터 업데이트, 화면에 텍스트 표시 리렌더링하는 함수
   const changeTodo = (e) => {
     const { name, value } = e.target;
@@ -54,15 +63,11 @@ function App() {
     });
   };
 
-  // useRef에 매개변수 값을 넣어주면 해당 값이 current property 값으로 설정
-  const nextId = useRef(todoArray.length + 1);
-
   // 버튼 클릭시 input에 입력되어 있는 텍스트를 기본 데이터 배열에 추가 / 리렌더링
   // async 쓰는 방법 -> promise관련 문법
   const addTodo = async () => {
     // 기본 데이터 배열에 넣어줄 객체
     const newTodo = {
-      id: nextId.current,
       todoContent: todoContent,
     };
 
@@ -70,31 +75,41 @@ function App() {
     // url : /lists
     // body : {id, todoContent}
     // async 써서 위에 axios와는 살짝 적는 방법이 다름
-    const response = await axios({
-      method: 'POST',
-      url: `${baseURL}/lists`,
-      data: newTodo,
-    });
-    const result = response.data.data;
-    setTodoArray(result);
-    setTodoInput({
-      todoContent: '',
-    });
-    nextId.current++;
+    try {
+      const response = await axios({
+        method: 'POST',
+        url: `${baseURL}/lists`,
+        data: newTodo,
+      });
+      if (response.status === 200) {
+        const result = await getAllData();
+        console.log(result);
+        setTodoArray(result);
+        setTodoInput({
+          todoContent: '',
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const removeTodo = async (id) => {
     // method : delete
     // url : /lists/:id
-    const response = await axios({
-      method: 'DELETE',
-      url: `${baseURL}/lists/${id}`,
-    });
-
-    const result = response.data.data;
-
-    setTodoArray(result);
-    // filter 내장 함수 : 조건에 맞는 데이터만 추출해서 새로운 데이터(배열) 생성
+    try {
+      const response = await axios({
+        method: 'DELETE',
+        url: `${baseURL}/lists/${id}`,
+      });
+      if (response.status === 200) {
+        const result = await getAllData();
+        console.log(result);
+        setTodoArray(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -109,6 +124,7 @@ function App() {
           todoArray={todoArray}
           removeTodo={removeTodo}
           setTodoArray={setTodoArray}
+          getAllData={getAllData}
         />
         <TodoStatus todoArray={todoArray} />
       </TodoMain>

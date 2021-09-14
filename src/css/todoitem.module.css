@@ -21,6 +21,19 @@
   font-size: 16px;
   flex: 1;
   font-family: Cafe24SsurroundAir, sans-serif;
+  /* text-decoration: line-through;
+  color: #868e96; */
+}
+
+.text_checked {
+  height: 24px;
+  line-height: 22px;
+  font-size: 16px;
+  font-family: Cafe24SsurroundAir, sans-serif;
+  padding: 0;
+  flex: 1;
+  text-decoration: line-through;
+  color: #868e96;
 }
 
 .del {

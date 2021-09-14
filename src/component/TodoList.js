@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import { baseURL } from '../App';
 
-function TodoItem({ todo, removeTodo, setTodoArray }) {
+function TodoItem({ todo, removeTodo, setTodoArray, getAllData }) {
   const editInputRef = useRef(null);
 
   const [edited, setEdited] = useState(false);
@@ -40,18 +40,53 @@ function TodoItem({ todo, removeTodo, setTodoArray }) {
         url: `${baseURL}/lists/${id}`, // App.js에서 전체적으로 주소 변수 설정해줌
         data: enterTodo,
       });
-      const result = response.data.data;
-      console.log(response.data);
-      setTodoArray(result);
-      setEdited(false);
+      if (response.status === 200) {
+        const result = await getAllData();
+        console.log(result);
+        setTodoArray(result);
+        setEdited(false);
+      }
     } catch (error) {
       console.log(error);
     }
   };
-
+  /////////////////////////////////////////////////
+  const onChangeChecked = async (id, checked) => {
+    try {
+      const enterTodo = {
+        idx: id,
+        todoContent: newText, // 수정할 텍스트
+      };
+      const response = await axios({
+        method: 'PUT',
+        url: `${baseURL}/lists/${id}`, // App.js에서 전체적으로 주소 변수 설정해줌
+        data: {
+          todoContent: todo.todoContent,
+          checked: !checked,
+        },
+      });
+      if (response.status === 200) {
+        const result = await getAllData();
+        console.log(result);
+        setTodoArray(result);
+        setEdited(false);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  /////////////////////////////////////////////////////
   return (
     <li className={todoItem['todo-item']}>
-      <input type="checkbox" className={todoItem.check} />
+      <input
+        type="checkbox"
+        className={todoItem.check}
+        checked={todo.checked}
+        onChange={() => {
+          onChangeChecked(todo.id, todo.checked);
+        }}
+      />
+
       {edited ? (
         <input
           ref={editInputRef}
@@ -65,7 +100,10 @@ function TodoItem({ todo, removeTodo, setTodoArray }) {
           }}
         />
       ) : (
-        <mark className={todoItem.text} onClick={onClickEdit}>
+        <mark
+          className={todo.checked === 1 ? todoItem.text_checked : todoItem.text}
+          onClick={onClickEdit}
+        >
           {todo.todoContent}
         </mark>
       )}
@@ -82,7 +120,7 @@ function TodoItem({ todo, removeTodo, setTodoArray }) {
     </li>
   );
 }
-function TodoList({ todoArray, removeTodo, setTodoArray }) {
+function TodoList({ todoArray, removeTodo, setTodoArray, getAllData }) {
   return (
     <section className={todolist.section}>
       <ul className="todo-list">
@@ -93,6 +131,7 @@ function TodoList({ todoArray, removeTodo, setTodoArray }) {
               key={todo.id}
               removeTodo={removeTodo}
               setTodoArray={setTodoArray}
+              getAllData={getAllData}
             />
           );
         })}
